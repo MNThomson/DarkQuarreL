@@ -4,3 +4,11 @@ __pycache__/
 .cmd
 .idea
 .vscode
+
+
+# ML Stuff
+.keras
+.nv
+.vscode
+.config
+.cache

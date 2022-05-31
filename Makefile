@@ -8,11 +8,33 @@ SNAKE_2 = --name Snake1 --url http://localhost:8000
 dev:
 	$(PYTHON) $(SNAKE_DIR)/main.py
 
+train:
+	tensorman ="trainsnattle" run --gpu python3 -- src/train.py
+
+buildTrainImage:
+	docker build -t tensorman:trainsnattle .
+
 cf:
 	cloudflared tunnel run
 
 sim:
-	battlesnake play $(SNAKE_1) --viewmap -g solo --delay 50 -W 5 -H 5
+	battlesnake play $(SNAKE_1) --viewmap -g solo --delay 500 -W 5 -H 5
 
 battle:
 	battlesnake play $(SNAKE_1) $(SNAKE_2) --viewmap --delay 50 -W 10 -H 10
+
+demo:
+	make dev >/dev/null 2>&1 &
+
+	PORT=8000 make dev >/dev/null 2>&1 &
+
+	make battle
+	make killall
+
+killall:
+	fuser -k 8080/tcp
+	fuser -k 8000/tcp
+
+lint:
+	black .
+	isort .
