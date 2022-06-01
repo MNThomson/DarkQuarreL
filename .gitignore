@@ -12,3 +12,6 @@ __pycache__/
 .vscode
 .config
 .cache
+
+# Game data
+game

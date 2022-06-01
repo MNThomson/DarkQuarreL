@@ -1,3 +1,5 @@
+import json
+
 import numpy as np
 
 
@@ -14,6 +16,7 @@ def coordinatesToArray(array, coords):
 
 
 def convertJsonToMatrix(inputJson):
+    inputJson = json.loads(inputJson)
     board = inputJson["board"]
     snakes = board["snakes"]
 
@@ -30,8 +33,6 @@ def convertJsonToMatrix(inputJson):
 
 
 def exampleMatrix():
-    import json
-
     with open("src/example.json") as f:
         data = json.load(f)
 

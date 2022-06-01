@@ -11,10 +11,10 @@ from utils import plotLearning
 if __name__ == "__main__":
     tf.compat.v1.disable_eager_execution()
 
-    env = snakegym.make("Solo-Arena")
+    env = snakegym.make("Duel-Arena")
 
     lr = 0.001
-    n_games = 500
+    n_games = 2000
 
     agent = Agent(
         gamma=0.99,
@@ -28,6 +28,7 @@ if __name__ == "__main__":
     )
 
     scores = []
+    turns = []
     eps_history = []
     # agent.load_model()
     for i in range(n_games):
@@ -35,6 +36,7 @@ if __name__ == "__main__":
 
         done = False
         score = 0
+        turn = 0
         observation = env.reset()
         while not done:
             action = agent.choose_action(observation)
@@ -43,21 +45,30 @@ if __name__ == "__main__":
             agent.store_transition(observation, action, reward, observation_, done)
             observation = observation_
             agent.learn()
+            if i % 100 == 0 or i > n_games - 10:
+                env.render()
+                time.sleep(0.3)
+
+            turn += 1
 
         totaltime = time.time() - starttime
 
         eps_history.append(agent.epsilon)
         scores.append(score)
+        turns.append(turn)
 
-        avg_score = np.mean(scores[-100:])
-        print(
-            "episode:",
-            i,
-            "score %.2f" % score,
-            "average_score %.2f" % avg_score,
-            "epsilon %.2f" % agent.epsilon,
-            "time %.2f" % totaltime,
-        )
+        if i % 100 == 0 or score == 1:
+            avg_score = np.mean(scores[-100:])
+            avg_turns = np.mean(turns[-100:])
+            print(
+                "episode:",
+                i,
+                "score %.2f" % score,
+                "average_score %.2f" % avg_score,
+                "epsilon %.2f" % agent.epsilon,
+                "time %.2f" % totaltime,
+                "average_turns %.2f" % avg_turns,
+            )
 
     # agent.save_model()
 
