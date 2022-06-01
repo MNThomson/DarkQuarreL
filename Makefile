@@ -9,7 +9,7 @@ dev:
 	$(PYTHON) $(SNAKE_DIR)/main.py
 
 train:
-	docker run -u 1000:1000 --net=host --gpus=all -e HOME=/project -it --rm -v /home/mthomson/proj/Snattle:/project -w /project tensorman:trainsnattle python3 src/train.py
+	docker run -u 1000:1000 --net=host --gpus=all -e HOME=/project -it --rm -v $$(pwd):/project -w /project tensorman:trainsnattle python3 src/train.py
 	# tensorman ="trainsnattle" run --gpu python3 -- src/train.py
 
 buildTrainImage:
