@@ -42,3 +42,6 @@ lint:
 
 cleanlogs:
 	rm game/*.json
+
+clean:
+	rm -rf .cache .config .keras .nv **/__pycache__

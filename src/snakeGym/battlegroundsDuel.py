@@ -3,11 +3,10 @@ import socket
 import subprocess
 from datetime import datetime
 from multiprocessing import Process, Queue
-from pprint import pprint
 
 import numpy as np
 
-from convert import convertJsonToMatrix, exampleMatrix
+from convert import convertJsonToMatrix
 
 
 def actionToStr(action):
@@ -40,14 +39,10 @@ class BattlegroundsDuel:
 
     def step(self, action):
         action = actionToStr(action)
-        # print("recieved action, putting into outgoingQueue:", len(action))
         self.outgoingQueue.put(action)
 
-        reward = 1
+        reward = 0
         done = False
-        if action != 0:
-            reward = 0
-            # done = True
 
         if not self.isEnd():
             data = self.incomingQueue.get()
@@ -63,19 +58,12 @@ class BattlegroundsDuel:
             else:
                 self.observation = convertJsonToMatrix(data)
 
-        # self.isEnd()
-        # state, reward, done, info = self._s.step(action)
         return self.observation, reward, done, None
 
     def isEnd(self):
         return self.proc.poll() is None
-        # line = ""
-        # for line in self.proc.stderr:
-        #     pass
-        # print(line)
 
     def render(self):
-        # raise NotImplementedError
         print("Iteration")
         boardToPrint = np.full((11, 11), "░░", dtype=object)
         snakeIcons = ["⬜", "🟨", "🟥", "🟪", "🟩", "🟧", "🟫", "🟦"]
@@ -125,8 +113,7 @@ class BattlegroundsDuel:
             ),
         )
         self.reader_p.daemon = True
-        self.reader_p.start()  # Launch reader_p() as another proc
-        # print("Hello")
+        self.reader_p.start()
 
     def handleHttpServer(self, incomingQueue, outgoingQueue):
         while True:
@@ -136,9 +123,8 @@ class BattlegroundsDuel:
             # Get the client request
             request = client_connection.recv(2048).decode()
             data = request.splitlines()[-1].encode().decode()
-            # print(request)
+
             if "move" not in request:
-                # print("NOT MOVE", len(request))
                 client_connection.sendall("HTTP/1.0 200 OK\n".encode())
                 client_connection.close()
                 if "end" in request:
@@ -146,7 +132,6 @@ class BattlegroundsDuel:
                     incomingQueue.put(data)
                 continue
 
-            # print("recieved data, putting into incomingQueue:", len(data))
             incomingQueue.put(data)
             move = outgoingQueue.get()
 

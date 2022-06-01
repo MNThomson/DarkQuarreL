@@ -30,18 +30,3 @@ def convertJsonToMatrix(inputJson):
         matrix[i] = snakeToArray(matrix[i], snake["body"])
 
     return matrix
-
-
-def exampleMatrix():
-    with open("src/example.json") as f:
-        data = json.load(f)
-
-    output = convertJsonToMatrix(data)
-    return output
-
-
-if __name__ == "__main__":
-    from pprint import pprint
-
-    out = exampleMatrix()
-    pprint(out[:3])
