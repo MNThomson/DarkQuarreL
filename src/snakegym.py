@@ -81,14 +81,12 @@ class SoloArena:
     def render(self):
         # raise NotImplementedError
         print("Iteration")
-        boardToPrint = np.empty((11, 11), dtype=object)
+        boardToPrint = np.full((11, 11), "░░", dtype=object)
         snakeIcons = ["⬜", "🟨", "🟥", "🟪", "🟩", "🟧", "🟫", "🟦"]
 
         for yLevel, y in enumerate(self.observation[0]):
             for xLevel, x in enumerate(y):
-                if x == 0:
-                    boardToPrint[yLevel][xLevel] = "░░"
-                else:
+                if x != 0:
                     boardToPrint[yLevel][xLevel] = "🍎"
 
         for snakeNumber, state in enumerate(self.observation[1:]):
