@@ -1,17 +1,16 @@
 import time
-from pprint import pprint
 
 import numpy as np
 import tensorflow as tf
 
-import snakegym
+import snakeGym
 from dqn import Agent
 from utils import plotLearning
 
 if __name__ == "__main__":
     tf.compat.v1.disable_eager_execution()
 
-    env = snakegym.make("Duel-Arena")
+    env = snakeGym.make("Duel-Arena")
 
     lr = 0.001
     n_games = 2000
