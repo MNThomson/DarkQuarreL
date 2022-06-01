@@ -1,4 +1,4 @@
-from .duel import BattlegroundsDuel
+from .battlegroundsDuel import BattlegroundsDuel
 from .solo import Solo
 
 
