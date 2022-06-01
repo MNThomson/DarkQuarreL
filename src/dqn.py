@@ -60,7 +60,7 @@ class Agent:
         epsilon,
         batch_size,
         input_dims,
-        epsilon_dec=1e-3,
+        epsilon_dec=1e-4,
         epsilon_end=0.01,
         mem_size=1000000,
         fname="dqn_model.h5",

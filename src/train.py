@@ -11,10 +11,10 @@ from utils import plotLearning
 if __name__ == "__main__":
     tf.compat.v1.disable_eager_execution()
 
-    env = snakegym.make("Solo-Arena")
+    env = snakegym.make("Duel-Arena")
 
     lr = 0.001
-    n_games = 500
+    n_games = 2000
 
     agent = Agent(
         gamma=0.99,
@@ -43,6 +43,9 @@ if __name__ == "__main__":
             agent.store_transition(observation, action, reward, observation_, done)
             observation = observation_
             agent.learn()
+            if i % 100 == 0 or i > n_games - 25:
+                env.render()
+                time.sleep(0.3)
 
         totaltime = time.time() - starttime
 
@@ -50,16 +53,17 @@ if __name__ == "__main__":
         scores.append(score)
 
         avg_score = np.mean(scores[-100:])
-        print(
-            "episode:",
-            i,
-            "score %.2f" % score,
-            "average_score %.2f" % avg_score,
-            "epsilon %.2f" % agent.epsilon,
-            "time %.2f" % totaltime,
-        )
+        if i % 100 == 0 or score == 1:
+            print(
+                "episode:",
+                i,
+                "score %.2f" % score,
+                "average_score %.2f" % avg_score,
+                "epsilon %.2f" % agent.epsilon,
+                "time %.2f" % totaltime,
+            )
 
-    # agent.save_model()
+    agent.save_model()
 
     filename = "graph.png"
     x = [i + 1 for i in range(n_games)]
