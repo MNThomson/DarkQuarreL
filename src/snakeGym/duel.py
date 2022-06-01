@@ -10,15 +10,11 @@ import numpy as np
 from convert import convertJsonToMatrix, exampleMatrix
 
 
-def make(str):
-    return DuelArena()
-
-
 def actionToStr(action):
     return ["up", "down", "right", "left"][action]
 
 
-class DuelArena:
+class BattlegroundsDuel:
     def __init__(self) -> None:
         self.observation_space = np.zeros((9, 11, 11), dtype=np.int8)
         self.action_space = 4

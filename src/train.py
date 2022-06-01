@@ -10,7 +10,7 @@ from utils import plotLearning
 if __name__ == "__main__":
     tf.compat.v1.disable_eager_execution()
 
-    env = snakeGym.make("Duel-Arena")
+    env = snakeGym.make("Battlegrounds-Duel")
 
     lr = 0.001
     n_games = 2000
