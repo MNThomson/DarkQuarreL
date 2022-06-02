@@ -1,0 +1,21 @@
+name: "Tensorflow"
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+
+jobs:
+  Train:
+    name: "Train"
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Build docker image
+        run: make buildTrainImage
+
+      - name: Train
+        run: make Train
