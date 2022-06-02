@@ -17,5 +17,13 @@ jobs:
       - name: Build docker image
         run: make buildTrainImage
 
+      - run: touch graph.png
+
       - name: Train
         run: make ciTrain
+
+      - name: Upload training data image
+        uses: actions/upload-artifact@v3
+        with:
+          name: graph.png
+          path: graph.png
