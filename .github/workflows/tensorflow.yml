@@ -34,4 +34,5 @@ jobs:
           uploadMethod: imgbb
           apiKey: '${{ secrets.IMGBB_API_KEY }}'
 
-      - run: echo "![Training Graph](${{ steps.upload-image.outputs.url }}) >> $GITHUB_STEP_SUMMARY
+      - name: Output to job steps
+        run: echo "![Training Graph](${{ steps.upload-image.outputs.url }})" >> $GITHUB_STEP_SUMMARY
