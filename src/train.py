@@ -13,7 +13,7 @@ if __name__ == "__main__":
     env = snakeGym.make("Battlegrounds-Duel")
 
     lr = 0.001
-    n_games = 50
+    n_games = 2000
 
     agent = Agent(
         gamma=0.99,

@@ -13,7 +13,7 @@ train:
 	# tensorman ="trainsnattle" run --gpu python3 -- src/train.py
 
 ciTrain:
-	docker run -u 1000:1000 -e HOME=/project -i --rm -v $$(pwd):/project -w /project tensorman:trainsnattle python3 src/train.py
+	docker run -e HOME=/project -i --rm -v $$(pwd):/project -w /project tensorman:trainsnattle python3 src/train.py
 
 buildTrainImage:
 	docker build -t tensorman:trainsnattle .
