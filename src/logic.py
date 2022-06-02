@@ -17,10 +17,10 @@ def get_info() -> dict:
     """
     return {
         "apiversion": "1",
-        "author": "Snattle",
-        "color": "#888888",
-        "head": "caffeine",
-        "tail": "bolt",
+        "author": "MNThomson",
+        "color": "#003049",
+        "head": "evil",
+        "tail": "hook",
     }
 
 
