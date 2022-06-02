@@ -17,16 +17,15 @@ jobs:
       - name: Build docker image
         run: make buildTrainImage
 
-      - name: Setup graph.png
-        run: -|
-          touch graph.png
-          chmod 666 graph.png
-
       - name: Train
         run: make ciTrain
 
-      - name: Upload training data image
-        uses: actions/upload-artifact@v3
+      - name: Upload image
+        id: upload-image
+        uses: McCzarny/upload-image@v1.0.0
         with:
-          name: graph.png
           path: graph.png
+          uploadMethod: imgbb
+          apiKey: '${{ secrets.IMGBB_API_KEY }}'
+
+      - run: echo ${{ steps.upload-image.outputs.* }} >> $GITHUB_STEP_SUMMARY
