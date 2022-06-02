@@ -17,7 +17,9 @@ jobs:
       - name: Build docker image
         run: make buildTrainImage
 
-      - run: touch graph.png
+      - run: -|
+          touch graph.png
+          chmod 666 graph.png
 
       - name: Train
         run: make ciTrain
