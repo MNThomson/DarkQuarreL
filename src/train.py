@@ -5,7 +5,6 @@ import tensorflow as tf
 
 import snakeGym
 from dqn import Agent
-from utils import plotLearning
 
 if __name__ == "__main__":
     tf.compat.v1.disable_eager_execution()
@@ -71,6 +70,5 @@ if __name__ == "__main__":
 
     # agent.save_model()
 
-    filename = "graph.png"
     x = [i + 1 for i in range(n_games)]
-    plotLearning(x, scores, eps_history, filename)
+    env.plotLearning(x, scores, eps_history, "graph.png")
