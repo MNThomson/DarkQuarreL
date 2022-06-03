@@ -1,5 +1,6 @@
-from .utils import plotLearning
 import numpy as np
+
+from .utils import plotLearning
 
 
 class BaseEnv:
