@@ -14,7 +14,7 @@ def plotLearning(x, scores, epsilons, filename, lines=None):
 
     ax.plot(x, x_running_avg, color="C0")
     ax.set_xlabel("Game", color="C0")
-    ax.set_ylabel("Epsilon", color="C0")
+    ax.set_ylabel("Turns", color="C0")
     ax.tick_params(axis="x", colors="C0")
     ax.tick_params(axis="y", colors="C0")
 
