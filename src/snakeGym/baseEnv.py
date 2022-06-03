@@ -33,14 +33,20 @@ class BaseEnv:
                 print(j, end="")
             print()
 
+    def actionToStr(self, action):
+        return ["up", "down", "left", "right"][action]
+
     def startBattleSnakeRunner(self, snakes, gamemode="standard"):
+        self.incomingQueue = Queue()
+        self.outgoingQueue = Queue()
+
         self.startHttpServer()
 
         snakeUrls = ""
         for snakeName, snakeUrl in snakes.items():
             snakeUrls += f"--name {snakeName} --url {snakeUrl} "
 
-        self.proc = subprocess.Popen(
+        self.battleSnakeProc = subprocess.Popen(
             f"battlesnake play {snakeUrls} -H {self.height} -W {self.width} -g {gamemode} -o game/{datetime.now().time()}.json".split(),
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
@@ -95,3 +101,12 @@ class BaseEnv:
 
             # Close connection
             client_connection.close()
+
+    def killBattleSnakeRunner(self):
+        if self.battleSnakeProc:
+            self.battleSnakeProc.kill()
+
+        if self.server_socket:
+            self.server_socket.close()
+            self.reader_p.terminate()
+            self.reader_p.join()

@@ -23,15 +23,16 @@ if __name__ == "__main__":
         mem_size=1000000,
         batch_size=64,
         epsilon_end=0.01,
+        fname="Battlegrounds-Duel.h5",
     )
 
     scores = []
     turns = []
     eps_history = []
-    # agent.load_model()
-    for i in range(n_games):
-        starttime = time.time()
 
+    # agent.load_model()
+
+    for i in range(n_games):
         done = False
         score = 0
         turn = 0
@@ -43,19 +44,17 @@ if __name__ == "__main__":
             agent.store_transition(observation, action, reward, observation_, done)
             observation = observation_
             agent.learn()
-            if i % 100 == 0 or i > n_games - 10:
+            if i > n_games - 10:
                 env.render()
                 time.sleep(0.3)
 
             turn += 1
 
-        totaltime = time.time() - starttime
-
         eps_history.append(agent.epsilon)
         scores.append(score)
         turns.append(turn)
 
-        if i % 100 == 0 or score == 1:
+        if i % 100 == 0:
             avg_score = np.mean(scores[-100:])
             avg_turns = np.mean(turns[-100:])
             print(
@@ -64,7 +63,6 @@ if __name__ == "__main__":
                 "score %.2f" % score,
                 "average_score %.2f" % avg_score,
                 "epsilon %.2f" % agent.epsilon,
-                "time %.2f" % totaltime,
                 "average_turns %.2f" % avg_turns,
             )
 
