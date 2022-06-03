@@ -15,13 +15,13 @@ def coordinatesToArray(array, coords):
     return array
 
 
-def convertJsonToMatrix(inputJson):
+def convertJsonToMatrix(inputJson, depth):
     inputJson = json.loads(inputJson)
     board = inputJson["board"]
     snakes = board["snakes"]
 
     matrix = np.zeros(
-        [9, board["height"], board["width"]], dtype=np.int8
+        [depth, board["height"], board["width"]], dtype=np.int8
     )  # Create Matrix: 9 (Food + 8 snakes) x Height x Width
 
     matrix[0] = coordinatesToArray(matrix[0], board["food"])

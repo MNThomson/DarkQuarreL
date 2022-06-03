@@ -8,6 +8,9 @@ SNAKE_2 = --name Snake1 --url http://localhost:8000
 dev:
 	$(PYTHON) $(SNAKE_DIR)/main.py
 
+rngDev:
+	$(PYTHON) $(SNAKE_DIR)/snakeGym/rngSnake/server.py
+
 train:
 	docker run -u 1000:1000 --net=host --gpus=all -e HOME=/project -it --rm -v $$(pwd):/project -w /project tensorman:trainsnattle python3 src/train.py
 	# tensorman ="trainsnattle" run --gpu python3 -- src/train.py
@@ -47,4 +50,5 @@ cleanlogs:
 	rm game/*.json
 
 clean:
-	rm -rf .cache .config .keras .nv **/__pycache__
+	rm -rf .cache .config .keras .nv
+	find . -type d -name __pycache__ -exec rm -rf {} \;
