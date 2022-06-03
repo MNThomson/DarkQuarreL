@@ -16,7 +16,8 @@ def coordinatesToArray(array, coords):
 
 
 def convertJsonToMatrix(inputJson, depth):
-    inputJson = json.loads(inputJson)
+    if not isinstance(inputJson, dict):
+        inputJson = json.loads(inputJson)
     board = inputJson["board"]
     snakes = board["snakes"]
 

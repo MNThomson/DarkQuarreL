@@ -25,15 +25,17 @@ cf:
 	cloudflared tunnel run
 
 sim:
-	battlesnake play $(SNAKE_1) --viewmap -g solo --delay 500 -W 5 -H 5
+	battlesnake play $(SNAKE_1) --viewmap -g solo --delay 500 -W 11 -H 11
 
 battle:
-	battlesnake play $(SNAKE_1) $(SNAKE_2) --viewmap --delay 50 -W 10 -H 10
+	battlesnake play $(SNAKE_1) $(SNAKE_2) --viewmap --delay 50 -W 11 -H 11
 
 demo:
 	make dev >/dev/null 2>&1 &
 
-	PORT=8000 make dev >/dev/null 2>&1 &
+	PORT=8000 make rngDev >/dev/null 2>&1 &
+
+	sleep 2
 
 	make battle
 	make killall
