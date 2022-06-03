@@ -65,27 +65,6 @@ class BattlegroundsDuel(BaseEnv):
     def isEnd(self):
         return self.proc.poll() is None
 
-    def render(self):
-        print("Iteration")
-        boardToPrint = np.full((11, 11), "░░", dtype=object)
-        snakeIcons = ["⬜", "🟨", "🟥", "🟪", "🟩", "🟧", "🟫", "🟦"]
-
-        for yLevel, y in enumerate(self.observation[0]):
-            for xLevel, x in enumerate(y):
-                if x != 0:
-                    boardToPrint[yLevel][xLevel] = "🍎"
-
-        for snakeNumber, state in enumerate(self.observation[1:]):
-            for yLevel, y in enumerate(state):
-                for xLevel, x in enumerate(y):
-                    if x != 0:
-                        boardToPrint[yLevel][xLevel] = snakeIcons[snakeNumber]
-
-        for i in boardToPrint:
-            for j in i:
-                print(j, end="")
-            print()
-
     def startBattleSnake(self):
         self.startHttpServer()
 
