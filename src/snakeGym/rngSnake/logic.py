@@ -32,7 +32,7 @@ def choose_move(data: dict) -> str:
 
     # Choose a random direction from the remaining possible_moves to move in, and then return that move
     if not possible_moves:
-        return move.append("up")
+        return possible_moves.append("up")
     move = random.choice(possible_moves)
 
     return move

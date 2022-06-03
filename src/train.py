@@ -32,7 +32,7 @@ if __name__ == "__main__":
 
     # agent.load_model()
 
-    for i in range(n_games):
+    for i in range(1, n_games + 1):
         done = False
         score = 0
         turn = 0
@@ -44,9 +44,9 @@ if __name__ == "__main__":
             agent.store_transition(observation, action, reward, observation_, done)
             observation = observation_
             agent.learn()
-            if i > n_games - 10:
-                env.render()
-                time.sleep(0.3)
+            # if i > n_games - 10:
+            #     env.render()
+            #     time.sleep(0.3)
 
             turn += 1
 
@@ -58,15 +58,13 @@ if __name__ == "__main__":
             avg_score = np.mean(scores[-100:])
             avg_turns = np.mean(turns[-100:])
             print(
-                "episode:",
-                i,
-                "score %.2f" % score,
-                "average_score %.2f" % avg_score,
-                "epsilon %.2f" % agent.epsilon,
-                "average_turns %.2f" % avg_turns,
+                "episode: %5d" % i,
+                "average_score: %5.2f" % avg_score,
+                "epsilon: %.2f" % agent.epsilon,
+                "average_turns: %5.2f" % avg_turns,
             )
 
     # agent.save_model()
 
     x = [i + 1 for i in range(n_games)]
-    env.plotLearning(x, scores, eps_history, "graph.png")
+    env.plotLearning(x, scores, turns, "graph.png")

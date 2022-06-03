@@ -7,7 +7,12 @@ def plotLearning(x, scores, epsilons, filename, lines=None):
     ax = fig.add_subplot(111, label="1")
     ax2 = fig.add_subplot(111, label="2", frame_on=False)
 
-    ax.plot(x, epsilons, color="C0")
+    xN = len(x)
+    x_running_avg = np.empty(xN)
+    for t in range(xN):
+        x_running_avg[t] = np.mean(epsilons[max(0, t - 20) : (t + 1)])
+
+    ax.plot(x, x_running_avg, color="C0")
     ax.set_xlabel("Game", color="C0")
     ax.set_ylabel("Epsilon", color="C0")
     ax.tick_params(axis="x", colors="C0")
