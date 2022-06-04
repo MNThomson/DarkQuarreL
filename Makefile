@@ -16,8 +16,8 @@ train:
 	# tensorman ="trainsnattle" run --gpu python3 -- src/train.py
 
 ciTrain:
-	docker run -e HOME=/project -p 8000:8000 -e PORT=8000 -d -v $$(pwd):/project -w /project tensorman:trainsnattle python3 src/snakeGym/rngSnake/server.py
-	docker run -e HOME=/project -i --rm -v $$(pwd):/project -w /project tensorman:trainsnattle python3 src/train.py
+	docker run --net=host -e HOME=/project -e PORT=8000 -d -v $$(pwd):/project -w /project tensorman:trainsnattle python3 src/snakeGym/rngSnake/server.py
+	docker run --net=host -e HOME=/project -i --rm -v $$(pwd):/project -w /project tensorman:trainsnattle python3 src/train.py
 	fuser -k 8000/tcp
 
 
