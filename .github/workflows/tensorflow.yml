@@ -26,6 +26,12 @@ jobs:
           name: graph.png
           path: graph.png
 
+      - name: Upload training model
+        uses: actions/upload-artifact@v3
+        with:
+          name: Battlegrounds-Duel.h5
+          path: Battlegrounds-Duel.h5
+
       - name: Upload image
         id: upload-image
         uses: McCzarny/upload-image@v1.0.0

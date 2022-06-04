@@ -37,8 +37,6 @@ class BaseEnv:
         return ["up", "down", "left", "right"][action]
 
     def startBattleSnakeRunner(self, snakes, gamemode="standard"):
-        self.incomingQueue = Queue()
-        self.outgoingQueue = Queue()
 
         self.startHttpServer()
 
@@ -47,7 +45,7 @@ class BaseEnv:
             snakeUrls += f"--name {snakeName} --url {snakeUrl} "
 
         self.battleSnakeProc = subprocess.Popen(
-            f"battlesnake play {snakeUrls} -H {self.height} -W {self.width} -g {gamemode} -o game/{datetime.now().time()}.json".split(),
+            f"battlesnake play {snakeUrls} -H {self.height} -W {self.width} -g {gamemode} -t 20000 -o game/{datetime.now().time()}.json".split(),
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
             shell=False,
@@ -110,3 +108,9 @@ class BaseEnv:
             self.server_socket.close()
             self.reader_p.terminate()
             self.reader_p.join()
+
+        while not self.incomingQueue.empty():
+            self.outgoingQueue.get()
+
+        while not self.incomingQueue.empty():
+            self.outgoingQueue.get()

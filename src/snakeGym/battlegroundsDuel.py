@@ -15,6 +15,8 @@ class BattlegroundsDuel(BaseEnv):
         self.action_space = 4
         self.battleSnakeProc = None
         self.server_socket = None
+        self.incomingQueue = Queue()
+        self.outgoingQueue = Queue()
 
     def reset(self):
         self.killBattleSnakeRunner()

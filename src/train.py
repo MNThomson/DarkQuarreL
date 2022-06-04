@@ -12,7 +12,7 @@ if __name__ == "__main__":
     env = snakeGym.make("Battlegrounds-Duel")
 
     lr = 0.001
-    n_games = 1000
+    n_games = 100000
 
     agent = Agent(
         gamma=0.99,
@@ -25,6 +25,9 @@ if __name__ == "__main__":
         epsilon_end=0.01,
         fname="Battlegrounds-Duel.h5",
     )
+
+    max_time = 18000
+    start_time = time.time()  # remember when we started
 
     scores = []
     turns = []
@@ -63,8 +66,11 @@ if __name__ == "__main__":
                 "epsilon: %.2f" % agent.epsilon,
                 "average_turns: %5.2f" % avg_turns,
             )
+        
+        if (time.time() - start_time) > max_time:
+            break
 
-    # agent.save_model()
+    agent.save_model()
 
-    x = [i + 1 for i in range(n_games)]
+    x = [i + 1 for i in range(len(scores))]
     env.plotLearning(x, scores, turns, "graph.png")

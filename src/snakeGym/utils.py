@@ -11,6 +11,8 @@ def plotLearning(x, scores, epsilons, filename, lines=None):
     x_running_avg = np.empty(xN)
     for t in range(xN):
         x_running_avg[t] = np.mean(epsilons[max(0, t - 20) : (t + 1)])
+    for i in range(20):
+        x_running_avg[i] = x_running_avg[i+20]
 
     ax.plot(x, x_running_avg, color="C0")
     ax.set_xlabel("Game", color="C0")

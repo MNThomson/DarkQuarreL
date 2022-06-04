@@ -28,6 +28,8 @@ def convertJsonToMatrix(inputJson, depth):
     matrix[0] = coordinatesToArray(matrix[0], board["food"])
 
     for i, snake in enumerate(snakes, 1):
+        if i > depth:
+            break
         matrix[i] = snakeToArray(matrix[i], snake["body"])
 
     return matrix
