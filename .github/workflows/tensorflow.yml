@@ -17,6 +17,9 @@ jobs:
       - name: Build docker image
         run: make buildTrainImage
 
+      - name: Setup tmate session
+        uses: mxschmitt/action-tmate@v3
+
       - name: Train
         run: make ciTrain
 
