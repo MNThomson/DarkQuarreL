@@ -13,7 +13,6 @@ class BattlegroundsDuel(BaseEnv):
         super(BattlegroundsDuel, self).__init__()
         self.observation_space = np.zeros((3, 11, 11), dtype=np.int32)
         self.depth, self.height, self.width = self.observation_space.shape
-        self.action_space = 4
         self.battleSnakeProc = None
         self.server_socket = None
 
@@ -54,4 +53,6 @@ class BattlegroundsDuel(BaseEnv):
         return self.observation, reward, done, None
 
     def isEnd(self):
-        return self.battleSnakeProc.poll() is None
+        if not self.ManualBattleSnakeCli:
+            return self.battleSnakeProc.poll() is None
+        return False
