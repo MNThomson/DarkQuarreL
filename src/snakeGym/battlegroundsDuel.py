@@ -10,13 +10,12 @@ from .baseEnv import BaseEnv
 
 class BattlegroundsDuel(BaseEnv):
     def __init__(self) -> None:
-        self.observation_space = np.zeros((3, 11, 11), dtype=np.int8)
+        super(BattlegroundsDuel, self).__init__()
+        self.observation_space = np.zeros((3, 11, 11), dtype=np.int32)
         self.depth, self.height, self.width = self.observation_space.shape
         self.action_space = 4
         self.battleSnakeProc = None
         self.server_socket = None
-        self.incomingQueue = Queue()
-        self.outgoingQueue = Queue()
 
     def reset(self):
         self.killBattleSnakeRunner()

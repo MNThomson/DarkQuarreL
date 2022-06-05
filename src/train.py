@@ -50,19 +50,20 @@ if __name__ == "__main__":
                 score += reward
                 agent.store_transition(observation, action, reward, observation_, done)
                 observation = observation_
-                agent.learn()
-                # if i > n_games - 10:
+                # if i == 100:
                 #     env.render()
                 #     time.sleep(0.3)
 
                 turn += 1
 
+            agent.learn()
+
             section_eps_history.append(agent.epsilon)
             section_scores.append(score)
             section_turns.append(turn)
 
-        avg_score = np.mean(section_scores[-100:])
-        avg_turns = np.mean(section_turns[-100:])
+        avg_score = np.mean(section_scores)
+        avg_turns = np.mean(section_turns)
 
         eps_history.append(agent.epsilon)
         scores.append(avg_score)
@@ -76,7 +77,7 @@ if __name__ == "__main__":
         )
 
         agent.save_model()
-            
+
         if (time.time() - start_time) > max_time:
             break
 

@@ -9,6 +9,9 @@ from .utils import plotLearning
 
 
 class BaseEnv:
+    def __init__(self) -> None:
+        pass
+
     def plotLearning(self, x, scores, epsilons, filename, lines=None):
         plotLearning(x, scores, epsilons, filename, lines)
 
@@ -45,7 +48,7 @@ class BaseEnv:
             snakeUrls += f"--name {snakeName} --url {snakeUrl} "
 
         self.battleSnakeProc = subprocess.Popen(
-            f"battlesnake play {snakeUrls} -H {self.height} -W {self.width} -g {gamemode} -t 20000 -o game/{datetime.now().time()}.json".split(),
+            f"battlesnake play {snakeUrls} -H {self.height} -W {self.width} -g {gamemode} #-t 20000 -o game/{datetime.now().time()}.json".split(),
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
             shell=False,
@@ -101,6 +104,9 @@ class BaseEnv:
             client_connection.close()
 
     def killBattleSnakeRunner(self):
+        self.incomingQueue = Queue()
+        self.outgoingQueue = Queue()
+
         if self.battleSnakeProc:
             self.battleSnakeProc.kill()
 
