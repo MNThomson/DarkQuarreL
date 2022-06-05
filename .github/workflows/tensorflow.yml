@@ -5,6 +5,12 @@ on:
     branches:
       - master
   pull_request:
+  workflow_dispatch:
+    inputs:
+      debug_enabled:
+        description: 'Run the build with tmate debugging enabled'     
+        required: false
+        default: false
 
 jobs:
   Train:
@@ -17,11 +23,23 @@ jobs:
       - name: Build docker image
         run: make buildTrainImage
 
+      - name: Setup tmate session
+        uses: mxschmitt/action-tmate@v3
+        if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.debug_enabled }}
+
       - name: Train
         run: make ciTrain
 
+      - name: Upload training model
+        uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: Battlegrounds-Duel.h5
+          path: Battlegrounds-Duel.h5
+
       - name: Upload training data image
         uses: actions/upload-artifact@v3
+        if: always()
         with:
           name: graph.png
           path: graph.png
