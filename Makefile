@@ -17,7 +17,7 @@ train:
 
 ciTrain:
 	docker run --net=host -e HOME=/project -e PORT=8000 -d -v $$(pwd):/project -w /project tensorman:trainsnattle python3 src/snakeGym/rngSnake/server.py
-	docker run --net=host -e HOME=/project -i --rm -v $$(pwd):/project -w /project tensorman:trainsnattle python3 src/train.py
+	timeout -k 10 5.25m docker run --net=host -e HOME=/project -i --rm -v $$(pwd):/project -w /project tensorman:trainsnattle python3 src/train.py
 	fuser -k 8000/tcp
 
 

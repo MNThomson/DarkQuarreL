@@ -28,7 +28,7 @@ jobs:
         if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.debug_enabled }}
 
       - name: Train
-        run: timeout -k 10 5.25h make ciTrain
+        run: make ciTrain
 
       - name: Upload training model
         uses: actions/upload-artifact@v3
