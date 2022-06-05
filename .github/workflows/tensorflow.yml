@@ -28,19 +28,21 @@ jobs:
         if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.debug_enabled }}
 
       - name: Train
-        run: make ciTrain
-
-      - name: Upload training data image
-        uses: actions/upload-artifact@v3
-        with:
-          name: graph.png
-          path: graph.png
+        run: timeout -k 10 5.25h make ciTrain
 
       - name: Upload training model
         uses: actions/upload-artifact@v3
+        if: always()
         with:
           name: Battlegrounds-Duel.h5
           path: Battlegrounds-Duel.h5
+
+      - name: Upload training data image
+        uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: graph.png
+          path: graph.png
 
       - name: Upload image
         id: upload-image
