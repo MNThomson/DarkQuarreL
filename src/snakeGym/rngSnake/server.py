@@ -31,6 +31,6 @@ def handle_end(req: Dict[Any, Any]):
 
 
 if __name__ == "__main__":
-    uvicorn.run(app, host="127.0.0.1", port=int(os.environ.get("PORT", "8080")))
+    uvicorn.run(app, host="localhost", port=int(os.environ.get("PORT", "8080")))
 
 # uvicorn test:app --reload
