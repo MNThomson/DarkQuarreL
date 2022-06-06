@@ -50,13 +50,12 @@ if __name__ == "__main__":
                 score += reward
                 agent.store_transition(observation, action, reward, observation_, done)
                 observation = observation_
-                # if i == 100:
+                agent.learn()
+                # if i > n_games - 10:
                 #     env.render()
                 #     time.sleep(0.3)
 
                 turn += 1
-
-            agent.learn()
 
             section_eps_history.append(agent.epsilon)
             section_scores.append(score)
