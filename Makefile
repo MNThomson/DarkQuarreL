@@ -12,7 +12,7 @@ rngDev:
 	$(PYTHON) $(SNAKE_DIR)/snakeGym/rngSnake/server.py
 
 train:
-	docker run -u 1000:1000 --net=host --gpus=all -e HOME=/project -it --rm -v $$(pwd):/project -w /project tensorman:trainsnattle python3 src/train.py
+	docker run --net=host --gpus=all -e HOME=/project -it --rm -v $$(pwd):/project -w /project tensorman:trainsnattle python3 src/train.py
 	# tensorman ="trainsnattle" run --gpu python3 -- src/train.py
 
 ciTrain:
