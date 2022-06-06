@@ -12,7 +12,7 @@ from .utils import plotLearning
 class BaseEnv:
     def __init__(self) -> None:
         self.action_space = 4
-        self.ManualBattleSnakeCli = "BATTLESNAKE_CLI" in os.environ
+        self.manualBattleSnakeCli = "BATTLESNAKE_CLI" in os.environ
         pass
 
     def plotLearning(self, x, scores, epsilons, filename, lines=None):
@@ -50,13 +50,14 @@ class BaseEnv:
         for snakeName, snakeUrl in snakes.items():
             snakeUrls += f"--name {snakeName} --url {snakeUrl} "
 
-        if not self.ManualBattleSnakeCli:
-            self.battleSnakeProc = subprocess.Popen(
-                f"battlesnake play {snakeUrls} -H {self.height} -W {self.width} -g {gamemode}".split(),
-                stdout=subprocess.PIPE,
-                stderr=subprocess.PIPE,
-                shell=False,
-            )
+        if not self.manualBattleSnakeCli:
+            with open("cli.log", "a") as logfile:
+                self.battleSnakeProc = subprocess.Popen(
+                    f"battlesnake play {snakeUrls} -H {self.height} -W {self.width} -g {gamemode}".split(),
+                    stdout=logfile,
+                    stderr=logfile,
+                    shell=False,
+                )
 
     def startHttpServer(self):
         SERVER_HOST = "127.0.0.1"
@@ -114,7 +115,7 @@ class BaseEnv:
         self.outgoingQueue = Queue()
         self.outgoingQueue.put(None)
 
-        if not self.ManualBattleSnakeCli:
+        if not self.manualBattleSnakeCli:
             if self.battleSnakeProc:
                 self.battleSnakeProc.kill()
 

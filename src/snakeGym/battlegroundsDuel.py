@@ -53,6 +53,6 @@ class BattlegroundsDuel(BaseEnv):
         return self.observation, reward, done, None
 
     def isEnd(self):
-        if not self.ManualBattleSnakeCli:
+        if not self.manualBattleSnakeCli:
             return self.battleSnakeProc.poll() is None
         return False
