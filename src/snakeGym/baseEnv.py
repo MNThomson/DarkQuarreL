@@ -2,6 +2,7 @@ import socket
 import subprocess
 from datetime import datetime
 from multiprocessing import Process, Queue
+import os
 
 import numpy as np
 
@@ -9,6 +10,11 @@ from .utils import plotLearning
 
 
 class BaseEnv:
+    def __init__(self) -> None:
+        self.action_space = 4
+        self.manualBattleSnakeCli = "BATTLESNAKE_CLI" in os.environ
+        pass
+
     def plotLearning(self, x, scores, epsilons, filename, lines=None):
         plotLearning(x, scores, epsilons, filename, lines)
 
@@ -28,7 +34,7 @@ class BaseEnv:
                     if x != 0:
                         boardToPrint[yLevel][xLevel] = snakeIcons[snakeNumber]
 
-        for i in boardToPrint:
+        for i in reversed(boardToPrint):
             for j in i:
                 print(j, end="")
             print()
@@ -44,12 +50,14 @@ class BaseEnv:
         for snakeName, snakeUrl in snakes.items():
             snakeUrls += f"--name {snakeName} --url {snakeUrl} "
 
-        self.battleSnakeProc = subprocess.Popen(
-            f"battlesnake play {snakeUrls} -H {self.height} -W {self.width} -g {gamemode} -t 20000 -o game/{datetime.now().time()}.json".split(),
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE,
-            shell=False,
-        )
+        if not self.manualBattleSnakeCli:
+            with open("cli.log", "a") as logfile:
+                self.battleSnakeProc = subprocess.Popen(
+                    f"battlesnake play {snakeUrls} -H {self.height} -W {self.width} -g {gamemode}".split(),
+                    stdout=logfile,
+                    stderr=logfile,
+                    shell=False,
+                )
 
     def startHttpServer(self):
         SERVER_HOST = "127.0.0.1"
@@ -82,7 +90,7 @@ class BaseEnv:
             data = request.splitlines()[-1].encode().decode()
 
             if "move" not in request:
-                client_connection.sendall("HTTP/1.0 200 OK\n".encode())
+                client_connection.sendall("HTTP/1.0 200 OK\n\n{}".encode())
                 client_connection.close()
                 if "end" in request:
                     incomingQueue.put("END")
@@ -101,16 +109,27 @@ class BaseEnv:
             client_connection.close()
 
     def killBattleSnakeRunner(self):
-        if self.battleSnakeProc:
-            self.battleSnakeProc.kill()
+        self.incomingQueue = Queue()
+        self.incomingQueue.put(None)
+
+        self.outgoingQueue = Queue()
+        self.outgoingQueue.put(None)
+
+        if not self.manualBattleSnakeCli:
+            if self.battleSnakeProc:
+                self.battleSnakeProc.kill()
 
         if self.server_socket:
             self.server_socket.close()
             self.reader_p.terminate()
             self.reader_p.join()
 
-        while not self.incomingQueue.empty():
-            self.outgoingQueue.get()
+        # print(self.incomingQueue.qsize(), self.outgoingQueue.qsize())
 
-        while not self.incomingQueue.empty():
-            self.outgoingQueue.get()
+        while True:
+            if self.incomingQueue.get() == None:
+                break
+
+        while True:
+            if self.outgoingQueue.get() == None:
+                break

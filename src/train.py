@@ -61,8 +61,8 @@ if __name__ == "__main__":
             section_scores.append(score)
             section_turns.append(turn)
 
-        avg_score = np.mean(section_scores[-100:])
-        avg_turns = np.mean(section_turns[-100:])
+        avg_score = np.mean(section_scores)
+        avg_turns = np.mean(section_turns)
 
         eps_history.append(agent.epsilon)
         scores.append(avg_score)
@@ -76,7 +76,7 @@ if __name__ == "__main__":
         )
 
         agent.save_model()
-            
+
         if (time.time() - start_time) > max_time:
             break
 

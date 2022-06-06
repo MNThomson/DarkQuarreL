@@ -22,7 +22,7 @@ def convertJsonToMatrix(inputJson, depth):
     snakes = board["snakes"]
 
     matrix = np.zeros(
-        [depth, board["height"], board["width"]], dtype=np.int8
+        [depth, board["height"], board["width"]], dtype=np.int32
     )  # Create Matrix: 9 (Food + 8 snakes) x Height x Width
 
     matrix[0] = coordinatesToArray(matrix[0], board["food"])
