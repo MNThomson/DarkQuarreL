@@ -23,7 +23,7 @@ jobs:
       - name: Build docker image
         run: make buildTrainImage
 
-      - name: Setup tmate session
+      - name: Run debug tmate session
         uses: mxschmitt/action-tmate@v3
         if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.debug_enabled }}
 
@@ -47,10 +47,12 @@ jobs:
       - name: Upload image
         id: upload-image
         uses: McCzarny/upload-image@v1.0.0
+        if: always()
         with:
           path: graph.png
           uploadMethod: imgbb
           apiKey: '${{ secrets.IMGBB_API_KEY }}'
 
       - name: Output to job steps
-        run: echo "![Training Graph](${{ steps.upload-image.outputs.url }})" >> $GITHUB_STEP_SUMMARY
+        if: always()
+        run: echo -e "# Training Graph\n\n![Training Graph](${{ steps.upload-image.outputs.url }})" >> $GITHUB_STEP_SUMMARY

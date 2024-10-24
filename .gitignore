@@ -6,12 +6,17 @@ __pycache__/
 .vscode
 
 
-# ML Stuff
+# ML Cache
 .keras
 .nv
 .vscode
 .config
 .cache
 
-# Game data
+# Trained Models
+*.h5
+
+# Logs
 game
+log
+*.log

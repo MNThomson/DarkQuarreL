@@ -13,7 +13,9 @@ def get_info() -> dict:
         "tail": "hook",
     }
 
+
 agent = None
+
 
 def init():
     # tf.compat.v1.disable_eager_execution()
@@ -32,7 +34,9 @@ def init():
 
     agent.load_model()
 
+
 init()
+
 
 def choose_move(data: dict) -> str:
     observation = convertJsonToMatrix(data, 3)
